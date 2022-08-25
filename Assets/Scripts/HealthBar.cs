@@ -8,14 +8,16 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private float _maxDelta = 0.5f;
 
+    private Coroutine _currentCoroutine;
+
     private void OnEnable()
     {
-        _player.OnHealthGhanged += StartSetHealth;
+        _player.HealthGhanged += OnHealthGhanged;
     }
 
     private void OnDisable()
     {
-        _player.OnHealthGhanged -= StartSetHealth;
+        _player.HealthGhanged -= OnHealthGhanged;
     }
 
     private void Start()
@@ -29,9 +31,12 @@ public class HealthBar : MonoBehaviour
         _slider.value = health;
     }
 
-    private void StartSetHealth(float health)
+    private void OnHealthGhanged(float health)
     {
-        StartCoroutine(SetHealth(health));
+        if (_currentCoroutine != null)
+            StopCoroutine(_currentCoroutine);
+
+        _currentCoroutine = StartCoroutine(SetHealth(health));        
     }
 
     private IEnumerator SetHealth(float health)

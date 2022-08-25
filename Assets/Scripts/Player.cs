@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private float _minHealth = 0;
 
     public float MaxHealth => _maxHealth;
-    public event UnityAction<float> OnHealthGhanged;
+    public event UnityAction<float> HealthGhanged;
 
     private void Start()
     {        
@@ -19,12 +19,12 @@ public class Player : MonoBehaviour
     public void Heal(float numberLives)
     {
         _currentHealth = Mathf.Clamp(_currentHealth + numberLives, _minHealth, _maxHealth);
-        OnHealthGhanged.Invoke(_currentHealth);        
+        HealthGhanged.Invoke(_currentHealth);        
     }
 
     public void TakeDamage(float damage)
     {
         _currentHealth = Mathf.Clamp(_currentHealth - damage, _minHealth, _maxHealth);
-        OnHealthGhanged.Invoke(_currentHealth);
+        HealthGhanged.Invoke(_currentHealth);
     }
 }
